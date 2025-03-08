@@ -145,7 +145,7 @@ EOF
       ZIP="zip -r /root/ac-backup-m.zip ${dir}/* /var/lib/marzban/* /opt/marzban/.env"
 fi
 
-ACLover="marzban backup"
+marzbackup="Marzban Backup"
 
 # x-ui backup
 # ساخت فایل پشتیبانی برای نرم‌افزار X-UI و ذخیره آن در فایل ac-backup.zip
@@ -169,7 +169,7 @@ else
 fi
 
 ZIP="zip /root/ac-backup-x.zip ${dbDir}/x-ui.db ${configDir}/config.json"
-ACLover="x-ui backup"
+marzbackup="x-ui backup"
 
 # hiddify backup
 # ساخت فایل پشتیبانی برای نرم‌افزار Hiddify و ذخیره آن در فایل ac-backup.zip
@@ -193,7 +193,7 @@ zip /root/ac-backup-h.zip /opt/hiddify-manager/hiddify-panel/backup/\$latest_fil
 
 EOF
 )
-ACLover="hiddify backup"
+marzbackup="hiddify backup"
 else
 echo "Please choose m or x or h only !"
 exit 1
@@ -211,21 +211,20 @@ trim() {
 }
 
 IP=$(ip route get 1 | sed -n 's/^.*src \([0-9.]*\) .*$/\1/p')
-caption="${caption}\n\n${ACLover}\n<code>${IP}</code>\nCreated by @AC_Lover - https://github.com/AC-Lover/backup"
+caption="${caption}\n\n${marzbackup}\n<code>${IP}</code>"
 comment=$(echo -e "$caption" | sed 's/<code>//g;s/<\/code>//g')
 comment=$(trim "$comment")
 
-# install zip
-# نصب پکیج zip
-sudo apt install zip -y
+# install 7z
+sudo apt install p7zip-full -y
 
 # send backup to telegram
 # ارسال فایل پشتیبانی به تلگرام
 cat > "/root/ac-backup-${xmh}.sh" <<EOL
-rm -rf /root/ac-backup-${xmh}.zip
+rm -rf /root/ac-backup-${xmh}.7z
 $ZIP
-echo -e "$comment" | zip -z /root/ac-backup-${xmh}.zip
-curl -F chat_id="${chatid}" -F caption=\$'${caption}' -F parse_mode="HTML" -F document=@"/root/ac-backup-${xmh}.zip" https://api.telegram.org/bot${tk}/sendDocument
+echo -e "$comment" | zip -z /root/ac-backup-${xmh}.7z
+curl -F chat_id="${chatid}" -F caption=\$'${caption}' -F parse_mode="HTML" -F document=@"/root/ac-backup-${xmh}.7z" https://api.telegram.org/bot${tk}/sendDocument
 EOL
 
 
