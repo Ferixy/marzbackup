@@ -1,9 +1,11 @@
 #!/bin/bash
 
+echo -e "\nMarzBackup: AC Backup but simply better. Made exclusively for Marzban.\n"
+echo -e "\nCAUTION: MarzBackup is not meant to be used in production. Use it at your own risk.\n"
 # Bot token
 # گرفتن توکن ربات از کاربر و ذخیره آن در متغیر tk
 while [[ -z "$tk" ]]; do
-    echo "Bot token: "
+    echo "Enter Your backup bot token: "
     read -r tk
     if [[ $tk == $'\0' ]]; then
         echo "Invalid input. Token cannot be empty."
@@ -14,10 +16,10 @@ done
 # Chat id
 # گرفتن Chat ID از کاربر و ذخیره آن در متغیر chatid
 while [[ -z "$chatid" ]]; do
-    echo "Chat id: "
+    echo "Enter Your TG account's chatID: "
     read -r chatid
     if [[ $chatid == $'\0' ]]; then
-        echo "Invalid input. Chat id cannot be empty."
+        echo "Invalid input. Chat ID cannot be empty."
         unset chatid
     elif [[ ! $chatid =~ ^\-?[0-9]+$ ]]; then
         echo "${chatid} is not a number."
@@ -53,8 +55,7 @@ while true; do
 done
 
 
-# x-ui or marzban or hiddify
-# گرفتن نوع نرم افزاری که می‌خواهیم پشتیبانی از آن بگیریم و ذخیره آن در متغیر xmh
+# Acknowledge
 while [[ -z "$xmh" ]]; do
     echo "Enter m to acknowledge that you understand this is an EXPERIMENTAL backup script ONLY INTENDED FOR MARZBAN: "
     read -r xmh
@@ -72,13 +73,13 @@ while [[ -z "$pass" ]]; do
     echo "Enter backup file(7z) password: "
     read -r pass
     if [[ $pass == $'\0' ]]; then
-        echo "Invalid input. password cannot be empty. use vanilla ac backup if you don't want to encrypt your backups"
+        echo "Invalid input. Password cannot be empty. Use vanilla ac backup if you don't want to encrypt your backups"
         unset pass
     fi
 done
 
 while [[ -z "$crontabs" ]]; do
-    echo "Would you like the previous crontabs to be cleared? [y/n] : "
+    echo "Would you like to delete existing crontabs? [y/n] : "
     read -r crontabs
     if [[ $crontabs == $'\0' ]]; then
         echo "Invalid input. Please choose y or n."
@@ -100,9 +101,9 @@ fi
 if [[ "$xmh" == "m" ]]; then
 
 if dir=$(find /opt /root -type d -iname "marzban" -print -quit); then
-  echo "The folder exists at $dir"
+  echo "Found Marzban's directory! it exists at $dir"
 else
-  echo "The folder does not exist."
+  echo "Couldn't find Marzban's directory. terminating."
   exit 1
 fi
 
@@ -145,10 +146,10 @@ EOF
       ZIP="zip -r /root/ac-backup-m.zip ${dir}/* /var/lib/marzban/* /opt/marzban/.env"
 fi
 
-marzbackup="Marzban Backup"
+marzbackup="Marzban Extended Backup"
 
 else
-echo "Please choose m or x or h only !"
+echo "Please enter m to acknowledge "
 exit 1
 fi
 
