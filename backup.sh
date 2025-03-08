@@ -223,7 +223,6 @@ sudo apt install p7zip-full -y
 cat > "/root/ac-backup-${xmh}.sh" <<EOL
 rm -rf /root/MarzbanBackup.7z
 $7z
-echo -e "$comment" | zip -z /root/MarzbanBackup.7z
 curl -F chat_id="${chatid}" -F caption=\$'${caption}' -F parse_mode="HTML" -F document=@"/root/MarzbanBackup.7z" https://api.telegram.org/bot${tk}/sendDocument
 EOL
 
