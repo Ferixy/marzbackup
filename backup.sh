@@ -69,10 +69,10 @@ done
 
 # get password
 while [[ -z "$pass" ]]; do
-    echo "Backup zip file password: "
+    echo "Enter backup file(7z) password: "
     read -r pass
     if [[ $pass == $'\0' ]]; then
-        echo "Invalid input. password cannot be empty. use vanilla ac backup if you don't want to enter a password"
+        echo "Invalid input. password cannot be empty. use vanilla ac backup if you don't want to encrypt your backups"
         unset pass
     fi
 done
@@ -133,7 +133,7 @@ done
 EOL
 chmod +x /var/lib/marzban/mysql/ac-backup.sh
 
-ZIP=$(cat <<EOF
+7z=$(cat <<EOF
 docker exec marzban-mysql-1 bash -c "/var/lib/mysql/ac-backup.sh"
 zip -r /root/ac-backup-m.zip /opt/marzban/* /var/lib/marzban/* /opt/marzban/.env -x /var/lib/marzban/mysql/\*
 zip -r /root/ac-backup-m.zip /var/lib/marzban/mysql/db-backup/*
@@ -221,10 +221,10 @@ sudo apt install p7zip-full -y
 # send backup to telegram
 # ارسال فایل پشتیبانی به تلگرام
 cat > "/root/ac-backup-${xmh}.sh" <<EOL
-rm -rf /root/ac-backup-${xmh}.7z
-$ZIP
-echo -e "$comment" | zip -z /root/ac-backup-${xmh}.7z
-curl -F chat_id="${chatid}" -F caption=\$'${caption}' -F parse_mode="HTML" -F document=@"/root/ac-backup-${xmh}.7z" https://api.telegram.org/bot${tk}/sendDocument
+rm -rf /root/MarzbanBackup.7z
+$7z
+echo -e "$comment" | zip -z /root/MarzbanBackup.7z
+curl -F chat_id="${chatid}" -F caption=\$'${caption}' -F parse_mode="HTML" -F document=@"/root/MarzbanBackup.7z" https://api.telegram.org/bot${tk}/sendDocument
 EOL
 
 
