@@ -67,6 +67,16 @@ while [[ -z "$xmh" ]]; do
     fi
 done
 
+# get password
+while [[ -z "$pass" ]]; do
+    echo "Backup zip file password: "
+    read -r pass
+    if [[ $pass == $'\0' ]]; then
+        echo "Invalid input. password cannot be empty. use vanilla ac backup if you don't want to enter a password"
+        unset pass
+    fi
+done
+
 while [[ -z "$crontabs" ]]; do
     echo "Would you like the previous crontabs to be cleared? [y/n] : "
     read -r crontabs
