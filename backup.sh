@@ -146,7 +146,13 @@ EOF
 )
 
     else
-      ZIP="zip -r /root/ac-backup-m.zip ${dir}/* /var/lib/marzban/* /opt/marzban/.env"
+      sz=$(cat <<EOF
+mkdir /root/marzbackup
+rm /root/marzbackup/crontabbackup.txt
+crontab -l > /root/mzbackup/crontabbackup.txt
+7z a -p"$pass" -mhe=on -t7z -m0=lzma2 /root/marzbackup/MarzbanBackup.7z /opt/marzban/* /var/lib/marzban/* /opt/marzban/.env /etc/nginx/* /etc/haproxy/* /etc/sysctl.conf -x!/var/lib/marzban/mysql/* 
+EOF
+)
 fi
 
 marzbackup="Marzban Extended Backup"
