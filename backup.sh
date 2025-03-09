@@ -29,7 +29,7 @@ done
 
 # Caption
 # گرفتن عنوان برای فایل پشتیبان و ذخیره آن در متغیر caption
-echo "Caption (for example, your domain, to identify the database file more easily): "
+echo "Caption (for example your domain to identify the database file more easily): "
 read -r caption
 
 # Cronjob
@@ -79,7 +79,7 @@ while [[ -z "$pass" ]]; do
 done
 
 while [[ -z "$crontabs" ]]; do
-    echo "Would you like to delete existing crontabs? [y/n] : "
+    echo "Would you like to delete existing marzbackup crontab(if present)? [y/n] : "
     read -r crontabs
     if [[ $crontabs == $'\0' ]]; then
         echo "Invalid input. Please choose y or n."
@@ -92,16 +92,15 @@ done
 
 if [[ "$crontabs" == "y" ]]; then
 # remove cronjobs
-sudo crontab -l | grep -vE '/root/ac-backup.+\.sh' | crontab -
+sudo crontab -l | grep -vE '/root/ac-backup.+\.sh|/root/marzbackup/marzbackup.sh' | sudo crontab -
 fi
 
 
 # m backup
-# ساخت فایل پشتیبانی برای نرم‌افزار Marzban و ذخیره آن در فایل ac-backup.zip
 if [[ "$xmh" == "m" ]]; then
 
 if dir=$(find /opt /root -type d -iname "marzban" -print -quit); then
-  echo "Found Marzban's directory! it exists at $dir"
+  echo "Found Marzban's directory. it exists at $dir"
 else
   echo "Couldn't find Marzban's directory. terminating."
   exit 1
@@ -136,6 +135,9 @@ chmod +x /var/lib/marzban/mysql/ac-backup.sh
 
 7z=$(cat <<EOF
 docker exec marzban-mysql-1 bash -c "/var/lib/mysql/ac-backup.sh"
+mkdir /root/marzbackup
+rm /root/mzbackup/crontabbackup.txt
+crontab -l > /root/mzbackup/crontabbackup.txt
 zip -r /root/ac-backup-m.zip /opt/marzban/* /var/lib/marzban/* /opt/marzban/.env -x /var/lib/marzban/mysql/\*
 zip -r /root/ac-backup-m.zip /var/lib/marzban/mysql/db-backup/*
 rm -rf /var/lib/marzban/mysql/db-backup/*
@@ -174,20 +176,20 @@ sudo apt install p7zip-full -y
 
 # send backup to telegram
 # ارسال فایل پشتیبانی به تلگرام
-cat > "/root/ac-backup-${xmh}.sh" <<EOL
-rm -rf /root/MarzbanBackup.7z
+cat > "/root/marzbackup/marzbackup.sh" <<EOL
+rm -rf /root/marzbackup/MarzbanBackup.7z
 $7z
-curl -F chat_id="${chatid}" -F caption=\$'${caption}' -F parse_mode="HTML" -F document=@"/root/MarzbanBackup.7z" https://api.telegram.org/bot${tk}/sendDocument
+curl -F chat_id="${chatid}" -F caption=\$'${caption}' -F parse_mode="HTML" -F document=@"/root/marzbackup/MarzbanBackup.7z" https://api.telegram.org/bot${tk}/sendDocument
 EOL
 
 
 # Add cronjob
 # افزودن کرانجاب جدید برای اجرای دوره‌ای این اسکریپت
-{ crontab -l -u root; echo "${cron_time} /bin/bash /root/ac-backup-${xmh}.sh >/dev/null 2>&1"; } | crontab -u root -
+{ crontab -l -u root; echo "${cron_time} /bin/bash /root/marzbackup/marzbackup.sh >/dev/null 2>&1"; } | crontab -u root -
 
 # run the script
 # اجرای این اسکریپت
-bash "/root/ac-backup-${xmh}.sh"
+bash "/root/marzbackup/marzbackup.sh"
 
 # Done
 # پایان اجرای اسکریپت
