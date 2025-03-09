@@ -175,6 +175,9 @@ comment=$(trim "$comment")
 # install 7z
 sudo apt install p7zip-full -y
 
+# make dir for marzbackup
+mkdir /root/marzbackup
+
 # send backup to telegram
 # ارسال فایل پشتیبانی به تلگرام
 cat > "/root/marzbackup/marzbackup.sh" <<EOL
