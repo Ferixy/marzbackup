@@ -139,7 +139,7 @@ mkdir /root/marzbackup >/dev/null 2>&1
 rm /root/marzbackup/crontabbackup.txt  >/dev/null 2>&1
 crontab -l > /root/marzbackup/crontabbackup.txt
 cp -r /var/lib/marzban/mysql/db-backup /root/marzbackup/
-7z a -p"$pass" -mhe=on -t7z -m0=lzma2 /root/marzbackup/MarzbanBackup.7z /etc/wireguard/* /opt/marzban/* /opt/marzban/.env /var/lib/marzban/* /root/marzbackup/db-backup/* /etc/nginx /etc/haproxy /etc/sysctl.conf -x\!/var/lib/marzban/mysql 
+7z a -spf -p"$pass" -mhe=on -t7z -m0=lzma2 /root/marzbackup/MarzbanBackup.7z /etc/wireguard/* /opt/marzban/* /opt/marzban/.env /var/lib/marzban/* /root/marzbackup/db-backup/* /etc/nginx /etc/haproxy /etc/sysctl.conf -x\!/var/lib/marzban/mysql 
 rm -rf /var/lib/marzban/mysql/db-backup/* 
 rm -rf /root/marzbackup/db-backup
 EOF
@@ -150,7 +150,7 @@ EOF
 mkdir /root/marzbackup  >/dev/null 2>&1
 rm /root/marzbackup/crontabbackup.txt  >/dev/null 2>&1
 crontab -l > /root/marzbackup/crontabbackup.txt
-7z a -p"$pass" -mhe=on -t7z -m0=lzma2 /root/marzbackup/MarzbanBackup.7z /etc/wireguard/* /opt/marzban/* /opt/marzban/.env /var/lib/marzban/* /etc/nginx /etc/haproxy /etc/sysctl.conf
+7z a -spf -p"$pass" -mhe=on -t7z -m0=lzma2 /root/marzbackup/MarzbanBackup.7z /etc/wireguard/* /opt/marzban/* /opt/marzban/.env /var/lib/marzban/* /etc/nginx /etc/haproxy /etc/sysctl.conf
 EOF
 )
 fi
