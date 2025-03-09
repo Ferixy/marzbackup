@@ -136,7 +136,7 @@ chmod +x /var/lib/marzban/mysql/ac-backup.sh
 sz=$(cat <<EOF
 docker exec marzban-mysql-1 bash -c "/var/lib/mysql/ac-backup.sh"
 mkdir /root/marzbackup
-rm /root/mzbackup/crontabbackup.txt
+rm /root/marzbackup/crontabbackup.txt
 crontab -l > /root/mzbackup/crontabbackup.txt
 cp -r /var/lib/marzban/mysql/db-backup /root/marzbackup/
 7z a -p"$pass" -mhe=on -t7z -m0=lzma2 /root/MarzbanBackup.7z /opt/marzban/* /var/lib/marzban/* /opt/marzban/.env /root/marzbackup/db-backup/* /etc/nginx/* /etc/haproxy/* /etc/sysctl.conf -x!/var/lib/marzban/mysql/* 
