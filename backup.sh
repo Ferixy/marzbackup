@@ -79,7 +79,7 @@ while [[ -z "$pass" ]]; do
 done
 
 while [[ -z "$crontabs" ]]; do
-    echo "Would you like to delete existing marzbackup crontab(if present)? [y/n] : "
+    echo "Would you like to delete all marzbackup/acbackup crontabs(if present)? [y/n] : "
     read -r crontabs
     if [[ $crontabs == $'\0' ]]; then
         echo "Invalid input. Please choose y or n."
@@ -135,7 +135,7 @@ chmod +x /var/lib/marzban/mysql/ac-backup.sh
 
 sz=$(cat <<EOF
 docker exec marzban-mysql-1 bash -c "/var/lib/mysql/ac-backup.sh"
-mkdir /root/marzbackup
+mkdir /root/marzbackup >/dev/null 2>&1
 rm /root/marzbackup/crontabbackup.txt
 crontab -l > /root/mzbackup/crontabbackup.txt
 cp -r /var/lib/marzban/mysql/db-backup /root/marzbackup/
@@ -155,7 +155,7 @@ EOF
 )
 fi
 
-marzbackup="Marzban Extended Backup"
+marzbackup="Marzban extended backup by MarzBackup"
 
 else
 echo "Please enter m to acknowledge "
@@ -182,7 +182,7 @@ comment=$(trim "$comment")
 sudo apt install p7zip-full -y
 
 # make dir for marzbackup
-mkdir /root/marzbackup
+mkdir /root/marzbackup  >/dev/null 2>&1
 
 # send backup to telegram
 # ارسال فایل پشتیبانی به تلگرام
@@ -203,4 +203,7 @@ bash "/root/marzbackup/marzbackup.sh"
 
 # Done
 # پایان اجرای اسکریپت
-echo -e "\nDone\n"
+echo -e "\nDone!\n"
+echo -e "\nThank you for using MarzBackup!\n"
+echo -e "\nPlease consider giving MarzBackup a star if if you found it useful.\n"
+echo -e "\ngithub.com/Ferixy/marzbackup\n"
