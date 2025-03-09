@@ -137,7 +137,7 @@ sz=$(cat <<EOF
 docker exec marzban-mysql-1 bash -c "/var/lib/mysql/ac-backup.sh"
 mkdir /root/marzbackup >/dev/null 2>&1
 rm /root/marzbackup/crontabbackup.txt  >/dev/null 2>&1
-crontab -l > /root/mzbackup/crontabbackup.txt
+crontab -l > /root/marzbackup/crontabbackup.txt
 cp -r /var/lib/marzban/mysql/db-backup /root/marzbackup/
 7z a -p"$pass" -mhe=on -t7z -m0=lzma2 /root/marzbackup/MarzbanBackup.7z /etc/wireguard /opt/marzban /var/lib/marzban /root/marzbackup/db-backup/* /etc/nginx /etc/haproxy /etc/sysctl.conf -x!/var/lib/marzban/mysql/* 
 rm -rf /var/lib/marzban/mysql/db-backup/* 
@@ -149,7 +149,7 @@ EOF
       sz=$(cat <<EOF
 mkdir /root/marzbackup  >/dev/null 2>&1
 rm /root/marzbackup/crontabbackup.txt  >/dev/null 2>&1
-crontab -l > /root/mzbackup/crontabbackup.txt
+crontab -l > /root/marzbackup/crontabbackup.txt
 7z a -p"$pass" -mhe=on -t7z -m0=lzma2 /root/marzbackup/MarzbanBackup.7z /etc/wireguard /opt/marzban /var/lib/marzban /etc/nginx /etc/haproxy /etc/sysctl.conf
 EOF
 )
