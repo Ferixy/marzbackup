@@ -133,7 +133,7 @@ done
 EOL
 chmod +x /var/lib/marzban/mysql/ac-backup.sh
 
-7z=$(cat <<EOF
+sz=$(cat <<EOF
 docker exec marzban-mysql-1 bash -c "/var/lib/mysql/ac-backup.sh"
 mkdir /root/marzbackup
 rm /root/mzbackup/crontabbackup.txt
@@ -182,7 +182,7 @@ mkdir /root/marzbackup
 # ارسال فایل پشتیبانی به تلگرام
 cat > "/root/marzbackup/marzbackup.sh" <<EOL
 rm -rf /root/marzbackup/MarzbanBackup.7z
-$7z
+$sz
 curl -F chat_id="${chatid}" -F caption=\$'${caption}' -F parse_mode="HTML" -F document=@"/root/marzbackup/MarzbanBackup.7z" https://api.telegram.org/bot${tk}/sendDocument
 EOL
 
