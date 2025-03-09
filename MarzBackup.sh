@@ -35,7 +35,7 @@ read -r caption
 # Cronjob
 # تعیین زمانی برای اجرای این اسکریپت به صورت دوره‌ای
 while true; do
-    echo "Cronjob (minutes and hours) (e.g : 30 6 or 0 12) : "
+    echo "Enter backup frequency (crontab will be used) (minutes and hours) (e.g : 30 6 or 0 12) : "
     read -r minute hour
     if [[ $minute == 0 ]] && [[ $hour == 0 ]]; then
         cron_time="* * * * *"
@@ -79,7 +79,7 @@ while [[ -z "$pass" ]]; do
 done
 
 while [[ -z "$crontabs" ]]; do
-    echo "Would you like to delete all marzbackup/acbackup crontabs(if present)? [y/n] : "
+    echo "Would you like to delete all previous marzbackup/acbackup crontabs(if present)? [y/n] : "
     read -r crontabs
     if [[ $crontabs == $'\0' ]]; then
         echo "Invalid input. Please choose y or n."
