@@ -205,5 +205,5 @@ bash "/root/marzbackup/marzbackup.sh"
 # پایان اجرای اسکریپت
 echo -e "\nDone!\n"
 echo -e "\nThank you for using MarzBackup!\n"
-echo -e "\nPlease consider giving MarzBackup a star if if you found it useful.\n"
+echo -e "\nPlease consider giving MarzBackup a star if you found it useful.\n"
 echo -e "\ngithub.com/Ferixy/marzbackup\n"
